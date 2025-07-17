@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - African Heritage Arts</title>
+    <style>
+        :root {
+            --primary: #d4af37;
+            --dark: #1a1a1a;
+            --light: #f9f3e6;
+            --gray: #e0e0e0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--dark);
+            color: var(--primary);
+            padding: 20px 0;
+            text-align: center;
+        }
+        
+        nav {
+            background-color: #333;
+            padding: 15px 0;
+            text-align: center;
+        }
+        
+        nav a {
+            color: var(--primary);
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        nav a:hover {
+            background-color: var(--primary);
+            color: var(--dark);
+        }
+        
+        .shop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0 20px;
+            flex-wrap: wrap;
+        }
+        
+        .search-filter {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .search-bar {
+            position: relative;
+            min-width: 250px;
+        }
+        
+        .search-bar input {
+            padding: 10px 15px 10px 40px;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            width: 100%;
+            font-size: 16px;
+        }
+        
+        .search-bar i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        .filter-btn, .sort-btn {
+            background-color: white;
+            border: 1px solid var(--gray);
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+        
+        .filter-btn:hover, .sort-btn:hover {
+            border-color: var(--primary);
+        }
+        
+        .categories {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 15px 0;
+            margin-bottom: 20px;
+            scrollbar-width: none;
+        }
+        
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .category-btn {
+            background-color: white;
+            border: 1px solid var(--gray);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-image {
+            height: 220px;
+            width: 100%;
+            object-fit: cover;
+            border-bottom: 1px solid var(--gray);
+            cursor: pointer;
+        }
+        
+        .product-info {
+            padding: 15px;
+        }
+        
+        .product-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark);
+            cursor: pointer;
+        }
+        
+        .product-price {
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+        
+        .product-description {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+        }
+        
+        .quantity-btn {
+            background-color: #f5f5f5;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+        
+        .quantity-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .quantity-input {
+            width: 40px;
+            text-align: center;
+            border: none;
+            border-left: 1px solid var(--gray);
+            border-right: 1px solid var(--gray);
+            padding: 5px;
+            -moz-appearance: textfield;
+        }
+        
+        .quantity-input::-webkit-outer-spin-button,
+        .quantity-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        .add-to-cart {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .add-to-cart:hover {
+            background-color: #c19b2e;
+        }
+        
+        /* Filter Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--gray);
+            padding-bottom: 10px;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+        
+        .filter-section {
+            margin-bottom: 20px;
+        }
+        
+        .filter-section h3 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .price-range {
+            width: 100%;
+        }
+        
+        .price-inputs {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        
+        .price-inputs input {
+            width: 45%;
+            padding: 8px;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+        }
+        
+        .apply-filters {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        /* Sort Dropdown */
+        .sort-options {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            z-index: 100;
+            min-width: 200px;
+            display: none;
+        }
+        
+        .sort-options.show {
+            display: block;
+        }
+        
+        .sort-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .sort-option:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .sort-option.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        /* Category checkboxes */
+        .category-filters {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .category-filter-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Cart counter */
+        .cart-counter {
+            background-color: var(--primary);
+            color: var(--dark);
+            border-radius: 50%;
+            font-size: 12px;
+            padding: 2px 6px;
+            margin-left: 5px;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: var(--primary);
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .shop-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .search-filter {
+                width: 100%;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+            
+            .category-filters {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>African Heritage Arts</h1>
+            <p>Preserving and Sharing the Rich Cultural Traditions of Africa</p>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="container">
+            <a href="index.html">Home</a>
+            <a href="Aboutus.html">About Us</a>
+            <a href="Shop.html">Shop</a>
+            <a href="collections.html">Collections</a>
+            <a href="contact.html">Contact</a>
+            <a href="Cart.html"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-counter" id="cartCounter">0</span></a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="shop-header">
+            <h2>Our African Art Collection</h2>
+            <div class="search-filter">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search products...">
+                </div>
+                <button class="filter-btn" id="filterBtn">
+                    <i class="fas fa-filter"></i> Filters
+                </button>
+                <div class="sort-dropdown">
+                    <button class="sort-btn" id="sortBtn">
+                        <i class="fas fa-sort"></i> Sort By
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="sort-options" id="sortOptions">
+                        <div class="sort-option" data-sort="default">Default</div>
+                        <div class="sort-option" data-sort="price-asc">Price: Low to High</div>
+                        <div class="sort-option" data-sort="price-desc">Price: High to Low</div>
+                        <div class="sort-option" data-sort="name-asc">Name: A to Z</div>
+                        <div class="sort-option" data-sort="name-desc">Name: Z to A</div>
+                        <div class="sort-option" data-sort="newest">Newest First</div>
+                        <div class="sort-option" data-sort="popular">Most Popular</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="categories">
+            <button class="category-btn active" data-category="all">All Items</button>
+            <button class="category-btn" data-category="necklace">Necklace</button>
+            <button class="category-btn" data-category="earrings">Earrings</button>
+            <button class="category-btn" data-category="bracelets">Bracelets</button>
+            <button class="category-btn" data-category="rings">Rings</button>
+            <button class="category-btn" data-category="artwork">Artwork</button>
+            <button class="category-btn" data-category="maasai-shukas">Maasai Shukas</button>
+            <button class="category-btn" data-category="maasai-shoes">Maasai Shoes</button>
+            <button class="category-btn" data-category="wooden-carvings">Wooden Carvings</button>
+            <button class="category-btn" data-category="masks">Masks</button>
+            <button class="category-btn" data-category="woven-baskets">Woven Baskets</button>
+            <button class="category-btn" data-category="rare-coins">Rare Coins</button>
+            <button class="category-btn" data-category="silverware">Silverware</button>
+            <button class="category-btn" data-category="vintage-kitchenry">Vintage Kitchenry</button>
+            <button class="category-btn" data-category="ankara">Ankara</button>
+        </div>
+        
+        <div class="products-grid" id="productsGrid">
+            <!-- Product 1 -->
+            <div class="product-card" data-category="necklace" data-price="45" data-id="1" data-date="2025-01-15" data-popularity="85">
+                <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="African Beaded Necklace" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Beaded Maasai Necklace</h3>
+                    <div class="product-price">$45.00</div>
+                    <p class="product-description">Handcrafted by Maasai women using traditional techniques. Each bead is carefully selected and arranged to create this vibrant piece.</p>
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn minus">-</button>
+                            <input type="number" class="quantity-input" value="1" min="1">
+                            <button class="quantity-btn plus">+</button>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 2 -->
+            <div class="product-card" data-category="earrings" data-price="28" data-id="2" data-date="2025-02-20" data-popularity="72">
+                <img src="https://images.unsplash.com/photo-1602173574767-37ac01994b2a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="African Earrings" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Tuareg Silver Earrings</h3>
+                    <div class="product-price">$28.00</div>
+                    <p class="product-description">Authentic Tuareg silver earrings from Niger. Handcrafted by nomadic artisans using centuries-old techniques.</p>
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn minus">-</button>
+                            <input type="number" class="quantity-input" value="1" min="1">
+                            <button class="quantity-btn plus">+</button>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 3 -->
+            <div class="product-card" data-category="bracelets" data-price="35" data-id="3" data-date="2025-03-10" data-popularity="68">
+                <img src="https://images.unsplash.com/photo-1605100940231-9c4738c1c330?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="African Bracelets" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Zulu Beaded Bracelet Set</h3>
+                    <div class="product-price">$35.00</div>
+                    <p class="product-description">Set of three beaded bracelets inspired by traditional Zulu designs. Each color carries cultural significance.</p>
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn minus">-</button>
+                            <input type="number" class="quantity-input" value="1" min="1">
+                            <button class="quantity-btn plus">+</button>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 4 -->
+            <div class="product-card" data-category="wooden-carvings" data-price="120" data-id="4" data-date="2025-01-05" data-popularity="92">
+                <img src="https://images.unsplash.com/photo-1605106715994-18e3a6a4c5ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Wooden Carving" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Shona Stone Sculpture</h3>
+                    <div class="product-price">$120.00</div>
+                    <p class="product-description">Hand-carved soapstone sculpture from Zimbabwe. Each piece is unique and carries the spirit of the artist.</p>
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn minus">-</button>
+                            <input type="number" class="quantity-input" value="1" min="1">
+                            <button class="quantity-btn plus">+</button>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 5 -->
+            <div class="product-card" data-category="maasai-shukas" data-price="65" data-id="5" data-date="2025-04-18" data-popularity="78">
+                <img src="https://images.unsplash.com/photo-1605106715856-3a5a59c72d6d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Maasai Shuka" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Authentic Maasai Shuka</h3>
+                    <div class="product-price">$65.00</div>
+                    <p class="product-description">Traditional Maasai blanket/shawl made from high-quality cotton. Vibrant red color with striped patterns.</p>
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn minus">-</button>
+                            <input type="number" class="quantity-input" value="1" min="1">
+                            <button class="quantity-btn plus">+</button>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 6 -->
+            <div class="product-card" data-category="masks" data-price="85" data-id="6" data-date="2025-02-28" data-popularity="88">
+                <img src="https://images.unsplash.com/photo-1605106715856-3a5a59c72d6d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="African Mask" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Baule Ceremonial Mask</h3>
+                    <div class="product-price">$85.00</div>
+                    <p class="product-description">Hand-carved wooden mask from Ivory Coast. Used in traditional ceremonies and celebrations.</p>
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn minus">-</button>
+                            <input type="number" class="quantity-input" value="1" min="1">
+                            <button class="quantity-btn plus">+</button>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 7 -->
+            <div class="product-card" data-category="woven-baskets" data-price="55" data-id="7" data-date="2025-03-22" data-popularity="65">
+                <img src="https://images.unsplash.com/photo-1602173574763-37ac01994b2b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Woven Basket" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Raffia Palm Basket</h3>
+                    <div class="product-price">$55.00</div>
+                    <p class="product-description">Hand-woven basket from Cameroon. Made from sustainable raffia palm by skilled artisans.</p>
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn minus">-</button>
+                            <input type="number" class="quantity-input" value="1" min="1">
+                            <button class="quantity-btn plus">+</button>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product 8 -->
+            <div class="product-card" data-category="ankara" data-price="40" data-id="8" data-date="2025-04-05" data-popularity="95">
+                <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Ankara Fabric" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Ankara Fabric Bundle</h3>
+                    <div class="product-price">$40.00</div>
+                    <p class="product-description">Vibrant Ankara fabric bundle (6 yards) with traditional African patterns. Perfect for clothing and decor.</p>
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn minus">-</button>
+                            <input type="number" class="quantity-input" value="1" min="1">
+                            <button class="quantity-btn plus">+</button>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Filter Modal -->
+    <div class="modal" id="filterModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Filter Products</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            
+            <div class="filter-section">
+                <h3>Price Range</h3>
+                <input type="range" class="price-range" id="priceRange" min="0" max="500" value="500">
+                <div class="price-inputs">
+                    <input type="number" id="minPrice" placeholder="Min" value="0" min="0" max="500">
+                    <input type="number" id="maxPrice" placeholder="Max" value="500" min="0" max="500">
+                </div>
+            </div>
+            
+            <div class="filter-section">
+                <h3>Categories</h3>
+                <div class="category-filters" id="categoryFilters">
+                    <div class="category-filter-item">
+                        <input type="checkbox" id="filter-necklace" data-category="necklace" checked>
+                        <label for="filter-necklace">Necklace</label>
+                    </div>
+                    <div class="category-filter-item">
+                        <input type="checkbox" id="filter-earrings" data-category="earrings" checked>
+                        <label for="filter-earrings">Earrings</label>
+                    </div>
+                    <div class="category-filter-item">
+                        <input type="checkbox" id="filter-bracelets" data-category="bracelets" checked>
+                        <label for="filter-bracelets">Bracelets</label>
+                    </div>
+                    <div class="category-filter-item">
+                        <input type="checkbox" id="filter-rings" data-category="rings" checked>
+                        <label for="filter-rings">Rings</label>
+                    </div>
+                    <div class="category-filter-item">
+                        <input type="checkbox" id="filter-artwork" data-category="artwork" checked>
+                        <label for="filter-artwork">Artwork</label>
+                    </div>
+                    <div class="category-filter-item">
+                        <input type="checkbox" id="filter-maasai-shukas" data-category="maasai-shukas" checked>
+                        <label for="filter-maasai-shukas">Maasai Shukas</label>
+                    </div>
+                    <div class="category-filter-item">
+                        <input type="checkbox" id="filter-wooden-carvings" data-category="wooden-carvings" checked>
+                        <label for="filter-wooden-carvings">Wooden Carvings</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="filter-section">
+                <h3>Availability</h3>
+                <label>
+                    <input type="checkbox" name="in-stock" checked> In Stock
+                </label>
+            </div>
+            
+            <button class="apply-filters" id="applyFilters">Apply Filters</button>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 African Heritage Arts. All rights reserved.</p>
+            <p>Preserving African Traditions for Future Generations</p>
+        </div>
+    </footer>
+
+    <script>
+    // DOM Elements
+    const filterBtn = document.getElementById('filterBtn');
+    const filterModal = document.getElementById('filterModal');
+    const closeModal = document.querySelector('.close-modal');
+    const applyFiltersBtn = document.getElementById('applyFilters');
+    const priceRange = document.getElementById('priceRange');
+    const minPriceInput = document.getElementById('minPrice');
+    const maxPriceInput = document.getElementById('maxPrice');
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    const productCards = document.querySelectorAll('.product-card');
+    const productsGrid = document.getElementById('productsGrid');
+    const searchInput = document.getElementById('searchInput');
+    const sortBtn = document.getElementById('sortBtn');
+    const sortOptions = document.getElementById('sortOptions');
+    const categoryFilters = document.querySelectorAll('#categoryFilters input[type="checkbox"]');
+    const cartCounter = document.getElementById('cartCounter');
+
+    // Product data (would normally come from a database)
+    const productsData = [
+        {
+            id: 1,
+            name: "Beaded Maasai Necklace",
+            price: 45.00,
+            category: "necklace",
+            description: "Handcrafted by Maasai women using traditional techniques. Each bead is carefully selected and arranged to create this vibrant piece.",
+            images: [
+                "https://images.unsplash.com/photo-1605100804763-247f67b3557e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+                "https://images.unsplash.com/photo-1602173574767-37ac01994b2a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+                "https://images.unsplash.com/photo-1605100940231-9c4738c1c330?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            ],
+            reviews: [
+                { user: "Sarah K.", rating: 5, comment: "Beautiful craftsmanship!" },
+                { user: "James L.", rating: 4, comment: "Love the colors, arrived quickly." }
+            ],
+            dateAdded: "2025-01-15",
+            popularity: 85,
+            stock: 10
+        },
+        // Add similar data for all other products...
+    ];
+
+    // Cart functionality
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Initialize the shop
+    function initShop() {
+        updateCartCounter();
+        setupEventListeners();
+        // Load any saved filters from localStorage if needed
+    }
+
+    // Update cart counter
+    function updateCartCounter() {
+        const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+        cartCounter.textContent = totalItems;
+    }
+
+    // Setup all event listeners
+    function setupEventListeners() {
+        // Filter Modal functionality
+        filterBtn.addEventListener('click', () => {
+            filterModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+        
+        closeModal.addEventListener('click', closeFilterModal);
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === filterModal) {
+                closeFilterModal();
+            }
+        });
+
+        // Price range synchronization
+        priceRange.addEventListener('input', function() {
+            maxPriceInput.value = this.value;
+        });
+
+        minPriceInput.addEventListener('input', function() {
+            if (parseInt(this.value) > parseInt(maxPriceInput.value)) {
+                this.value = maxPriceInput.value;
+            }
+            priceRange.min = this.value || 0;
+        });
+
+        maxPriceInput.addEventListener('input', function() {
+            if (parseInt(this.value) < parseInt(minPriceInput.value)) {
+                this.value = minPriceInput.value;
+            }
+            priceRange.value = this.value;
+        });
+
+        // Category filtering
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                filterProducts(btn.dataset.category);
+            });
+        });
+
+        // Apply filters button
+        applyFiltersBtn.addEventListener('click', applyFilters);
+
+        // Search functionality
+        searchInput.addEventListener('input', debounce(() => {
+            filterProducts();
+        }, 300));
+
+        // Sort functionality
+        sortBtn.addEventListener('click', function() {
+            sortOptions.classList.toggle('show');
+        });
+
+        // Close sort dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!sortBtn.contains(e.target) && !sortOptions.contains(e.target)) {
+                sortOptions.classList.remove('show');
+            }
+        });
+
+        // Sort products
+        document.querySelectorAll('.sort-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.sort-option').forEach(opt => {
+                    opt.classList.remove('active');
+                });
+                this.classList.add('active');
+                sortProducts(this.dataset.sort);
+                sortOptions.classList.remove('show');
+            });
+        });
+
+        // Quantity selector functionality
+        document.querySelectorAll('.quantity-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const input = this.parentNode.querySelector('.quantity-input');
+                let value = parseInt(input.value);
+                
+                if (this.classList.contains('minus')) {
+                    input.value = value > 1 ? value - 1 : 1;
+                } else if (this.classList.contains('plus')) {
+                    input.value = value + 1;
+                }
+            });
+        });
+
+        // Add to cart functionality
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const productCard = this.closest('.product-card');
+                addToCart(productCard);
+            });
+        });
+
+        // Product click for details page
+        document.querySelectorAll('.product-image, .product-title').forEach(element => {
+            element.addEventListener('click', function() {
+                const productCard = this.closest('.product-card') || this.parentElement.closest('.product-card');
+                showProductDetails(productCard.dataset.id);
+            });
+        });
+    }
+
+    function closeFilterModal() {
+        filterModal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    function applyFilters() {
+        filterProducts();
+        closeFilterModal();
+    }
+
+    // Filter products function
+    function filterProducts(category = null) {
+        const minPrice = parseInt(minPriceInput.value) || 0;
+        const maxPrice = parseInt(maxPriceInput.value) || 500;
+        const searchTerm = searchInput.value.toLowerCase();
+        
+        const selectedCategories = Array.from(categoryFilters)
+            .filter(checkbox => checkbox.checked)
+            .map(checkbox => checkbox.dataset.category);
+        
+        productCards.forEach(card => {
+            const productName = card.querySelector('.product-title').textContent.toLowerCase();
+            const productDesc = card.querySelector('.product-description').textContent.toLowerCase();
+            const productPrice = parseInt(card.dataset.price);
+            const productCategory = card.dataset.category;
+            
+            const matchesCategory = category === null 
+                ? selectedCategories.includes(productCategory)
+                : category === 'all' || productCategory === category;
+            
+            const matchesPrice = productPrice >= minPrice && productPrice <= maxPrice;
+            const matchesSearch = searchTerm === '' || 
+                productName.includes(searchTerm) || 
+                productDesc.includes(searchTerm);
+            
+            card.style.display = matchesCategory && matchesPrice && matchesSearch ? 'block' : 'none';
+        });
+    }
+
+    // Sort products
+    function sortProducts(sortType) {
+        const productsArray = Array.from(productCards);
+        
+        productsArray.sort((a, b) => {
+            switch(sortType) {
+                case 'price-asc':
+                    return parseInt(a.dataset.price) - parseInt(b.dataset.price);
+                case 'price-desc':
+                    return parseInt(b.dataset.price) - parseInt(a.dataset.price);
+                case 'name-asc':
+                    return a.querySelector('.product-title').textContent.localeCompare(
+                        b.querySelector('.product-title').textContent
+                    );
+                case 'name-desc':
+                    return b.querySelector('.product-title').textContent.localeCompare(
+                        a.querySelector('.product-title').textContent
+                    );
+                case 'newest':
+                    return new Date(b.dataset.date) - new Date(a.dataset.date);
+                case 'popular':
+                    return parseInt(b.dataset.popularity) - parseInt(a.dataset.popularity);
+                default:
+                    return 0;
+            }
+        });
+        
+        productsArray.forEach(product => {
+            productsGrid.appendChild(product);
+        });
+    }
+
+    // Add to cart
+    function addToCart(productCard) {
+        const productId = productCard.dataset.id;
+        const productName = productCard.querySelector('.product-title').textContent;
+        const productPrice = parseFloat(productCard.querySelector('.product-price').textContent.replace('$', ''));
+        const quantity = parseInt(productCard.querySelector('.quantity-input').value);
+        const productImage = productCard.querySelector('.product-image').src;
+        
+        const existingItem = cart.find(item => item.id === productId);
+        
+        if (existingItem) {
+            existingItem.quantity += quantity;
+        } else {
+            cart.push({
+                id: productId,
+                name: productName,
+                price: productPrice,
+                quantity: quantity,
+                image: productImage
+            });
+        }
+        
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCounter();
+        showFeedback(`${quantity} ${productName} added to cart!`);
+    }
+
+    // Show product details (simulated - would redirect to a details page in a real app)
+    function showProductDetails(productId) {
+        // In a real app, this would redirect to a product details page
+        // For this demo, we'll show an alert with the product info
+        const product = productsData.find(p => p.id == productId);
+        if (product) {
+            const reviewText = product.reviews.map(review => 
+                `${review.user}: ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)} - ${review.comment}`
+            ).join('\n\n');
+            
+            alert(`PRODUCT DETAILS\n\n${product.name}\n$${product.price.toFixed(2)}\n\n${product.description}\n\nIMAGES: ${product.images.length}\n\nREVIEWS:\n${reviewText}`);
+            
+            // In a real implementation:
+            // window.location.href = `product.html?id=${productId}`;
+        }
+    }
+
+    // Show feedback message
+    function showFeedback(message) {
+        const feedback = document.createElement('div');
+        feedback.textContent = message;
+        feedback.style.position = 'fixed';
+        feedback.style.bottom = '20px';
+        feedback.style.right = '20px';
+        feedback.style.backgroundColor = 'var(--primary)';
+        feedback.style.color = 'white';
+        feedback.style.padding = '10px 20px';
+        feedback.style.borderRadius = '4px';
+        feedback.style.zIndex = '1000';
+        feedback.style.animation = 'fadeIn 0.3s';
+        document.body.appendChild(feedback);
+        
+        setTimeout(() => {
+            feedback.style.animation = 'fadeOut 0.3s';
+            setTimeout(() => feedback.remove(), 300);
+        }, 3000);
+    }
+
+    // Debounce function for search input
+    function debounce(func, wait) {
+        let timeout;
+        return function() {
+            const context = this, args = arguments;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                func.apply(context, args);
+            }, wait);
+        };
+    }
+
+    // Initialize the shop when DOM is loaded
+    document.addEventListener('DOMContentLoaded', initShop);
+</script>
+</body>
+</html>
